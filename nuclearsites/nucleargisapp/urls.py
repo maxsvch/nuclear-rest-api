@@ -15,9 +15,10 @@
 
 from django.urls import path
 
-from .views import NuclearSiteDetailView, NuclearSiteListCreateView
+from .views import NuclearSiteCreateView, NuclearSiteDetailView, NuclearSiteListView
 
 urlpatterns = [
-    path("nuclear-sites/", NuclearSiteListCreateView.as_view(), name="nuclear-site-list-create"),
-    path("nuclear-sites/<int:pk>/", NuclearSiteDetailView.as_view(), name="nuclear-site-detail"),
+    path("nuclear-sites/", NuclearSiteListView.as_view(), name="list-nuclear-sites"),
+    path("nuclear-sites/add/", NuclearSiteCreateView.as_view(), name="add-nuclear-site"),
+    path("nuclear-sites/<int:pk>/", NuclearSiteDetailView.as_view(), name="detail-nuclear-site"),
 ]

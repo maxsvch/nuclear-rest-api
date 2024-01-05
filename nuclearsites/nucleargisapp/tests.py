@@ -16,6 +16,7 @@
 # pylint: disable=no-member
 from django.contrib.gis.geos import Point
 from django.test import TestCase
+from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
@@ -33,7 +34,8 @@ class NuclearSiteModelTestCase(TestCase):
         )
 
     def test_nuclear_site_model(self):
-        """Test NuclearSite model"""
+        """Test NuclearSite model elements"""
+
         test_site = NuclearSite.objects.get(name="Test Site")
         self.assertEqual(test_site.power_mw, 1000.0)
         self.assertEqual(test_site.reactor_type, "Test Reactor")
@@ -55,7 +57,9 @@ class NuclearSiteAPITestCase(TestCase):
 
     def test_create_nuclear_site(self):
         """Test POST operation on nuclear sites API"""
-        response = self.client.post("/api/nuclear-sites/", self.site_data, format="multipart")
+
+        url = reverse("add-nuclear-site")
+        response = self.client.post(url, self.site_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(NuclearSite.objects.count(), 1)
         self.assertEqual(NuclearSite.objects.get().name, "New Site")
@@ -78,7 +82,7 @@ class NuclearSiteAPITestCase(TestCase):
             "reactor_type": "Updated Reactor",
             "location": Point(2, 2, srid=4326),
         }
-        response = self.client.put("/api/nuclear-sites/1/", updated_data, format="multipart")
+        response = self.client.put("/api/nuclear-sites/1/", updated_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(NuclearSite.objects.get().name, "Updated Site")
 

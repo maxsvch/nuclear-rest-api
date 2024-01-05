@@ -14,12 +14,13 @@
 """API Serializers"""
 
 # pylint: disable=too-few-public-methods
-from rest_framework_gis import serializers
+# from rest_framework_gis import serializers
+from rest_framework import serializers
 
 from .models import NuclearSite
 
 
-class NuclearSiteSerializer(serializers.GeoModelSerializer):
+class NuclearSiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = NuclearSite
         geo_field = "location"

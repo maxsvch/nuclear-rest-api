@@ -21,11 +21,22 @@ from .models import NuclearSite
 from .serializers import NuclearSiteSerializer
 
 
-class NuclearSiteListCreateView(generics.ListCreateAPIView):
+class NuclearSiteListView(generics.ListAPIView):
+    """List view used only for GET operations"""
+
+    queryset = NuclearSite.objects.all()
+    serializer_class = NuclearSiteSerializer
+
+
+class NuclearSiteCreateView(generics.CreateAPIView):
+    """Create view used only for POST operations"""
+
     queryset = NuclearSite.objects.all()
     serializer_class = NuclearSiteSerializer
 
 
 class NuclearSiteDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """Detail view used for GET, PUT and DELETE operations"""
+
     queryset = NuclearSite.objects.all()
     serializer_class = NuclearSiteSerializer
