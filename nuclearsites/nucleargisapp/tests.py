@@ -48,18 +48,36 @@ class NuclearSiteAPITestCase(TestCase):
 
     def setUp(self):
         self.client = APIClient()
+        # self.site_data = {
+        #     "name": "New Site",
+        #     "power_mw": 1500.0,
+        #     "reactor_type": "New Reactor",
+        #     "location": Point(1, 1, srid=4326),
+        # }
         self.site_data = {
             "name": "New Site",
             "power_mw": 1500.0,
             "reactor_type": "New Reactor",
-            "location": Point(1, 1, srid=4326),
+            "location": "POINT(1 1)",
         }
+        # self.site_data = {
+        #     "type": "Feature",
+        #     "properties": {
+        #         "name": "New Site",
+        #         "power_mw": 1500.0,
+        #         "reactor_type": "New Reactor",
+        #     },
+        #     "geometry": {
+        #         "type": "Point",
+        #         "coordinates": [1, 1]
+        #     }
+        # }
 
     def test_create_nuclear_site(self):
         """Test POST operation on nuclear sites API"""
 
         url = reverse("add-nuclear-site")
-        response = self.client.post(url, self.site_data)
+        response = self.client.post(url, self.site_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(NuclearSite.objects.count(), 1)
         self.assertEqual(NuclearSite.objects.get().name, "New Site")
@@ -76,13 +94,31 @@ class NuclearSiteAPITestCase(TestCase):
         """Test PUT operation on nuclear sites API"""
 
         NuclearSite.objects.create(**self.site_data)
+        # updated_data = {
+        #     "name": "Updated Site",
+        #     "power_mw": 2000.0,
+        #     "reactor_type": "Updated Reactor",
+        #     "location": Point(2, 2, srid=4326),
+        # }
         updated_data = {
             "name": "Updated Site",
             "power_mw": 2000.0,
             "reactor_type": "Updated Reactor",
-            "location": Point(2, 2, srid=4326),
+            "location": "POINT(2 2)",
         }
-        response = self.client.put("/api/nuclear-sites/1/", updated_data)
+        # updated_data = {
+        #     "type": "Feature",
+        #     "properties": {
+        #         "name": "Updated Site",
+        #         "power_mw": 2000.0,
+        #         "reactor_type": "Updated Reactor",
+        #     },
+        #     "geometry": {
+        #         "type": "Point",
+        #         "coordinates": [2, 2]
+        #     }
+        # }
+        response = self.client.put("/api/nuclear-sites/1/", updated_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(NuclearSite.objects.get().name, "Updated Site")
 
