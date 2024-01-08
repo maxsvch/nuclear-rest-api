@@ -145,8 +145,3 @@ You can run the tests for this project with the following command :
 python manage.py test
 ```
  -->
-
-
-## License
-
-This project is licensed under the Apach 2.0 License.
