@@ -52,32 +52,13 @@ class NuclearSiteAPITestCase(TestCase):
             "name": "New Site",
             "power_mw": 1500.0,
             "reactor_type": "New Reactor",
-            "location": Point(1, 1, srid=4326),
+            "location": "POINT(1 1)",
         }
-        # self.site_data = {
-        #     "name": "New Site",
-        #     "power_mw": 1500.0,
-        #     "reactor_type": "New Reactor",
-        #     "location": "POINT(1 1)",
-        # }
-        # self.site_data = {
-        #     "type": "Feature",
-        #     "properties": {
-        #         "name": "New Site",
-        #         "power_mw": 1500.0,
-        #         "reactor_type": "New Reactor",
-        #     },
-        #     "geometry": {
-        #         "type": "Point",
-        #         "coordinates": [1, 1]
-        #     }
-        # }
 
     def test_create_nuclear_site(self):
         """Test POST operation on nuclear sites API"""
 
-        url = reverse("add-nuclear-site")
-        response = self.client.post(url, self.site_data)
+        response = self.client.post(reverse("add-nuclear-site"), self.site_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(NuclearSite.objects.count(), 1)
         self.assertEqual(NuclearSite.objects.get().name, "New Site")
@@ -85,48 +66,30 @@ class NuclearSiteAPITestCase(TestCase):
     def test_retrieve_nuclear_site(self):
         """Test GET operation on nuclear sites API"""
 
-        NuclearSite.objects.create(**self.site_data)
-        response = self.client.get("/api/nuclear-sites/1/")
+        nuclear_site = NuclearSite.objects.create(**self.site_data)
+        response = self.client.get(reverse("detail-nuclear-site", kwargs={"pk": nuclear_site.pk}))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["name"], "New Site")
 
     def test_update_nuclear_site(self):
         """Test PUT operation on nuclear sites API"""
 
-        NuclearSite.objects.create(**self.site_data)
+        nuclear_site = NuclearSite.objects.create(**self.site_data)
         updated_data = {
             "name": "Updated Site",
             "power_mw": 2000.0,
             "reactor_type": "Updated Reactor",
-            "location": Point(2, 2, srid=4326),
+            "location": "POINT(2 2)",
         }
-        # updated_data = {
-        #     "name": "Updated Site",
-        #     "power_mw": 2000.0,
-        #     "reactor_type": "Updated Reactor",
-        #     "location": "POINT(2 2)",
-        # }
-        # updated_data = {
-        #     "type": "Feature",
-        #     "properties": {
-        #         "name": "Updated Site",
-        #         "power_mw": 2000.0,
-        #         "reactor_type": "Updated Reactor",
-        #     },
-        #     "geometry": {
-        #         "type": "Point",
-        #         "coordinates": [2, 2]
-        #     }
-        # }
-        response = self.client.put("/api/nuclear-sites/1/", updated_data)
+        response = self.client.put(reverse("detail-nuclear-site", kwargs={"pk": nuclear_site.pk}), updated_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(NuclearSite.objects.get().name, "Updated Site")
 
     def test_delete_nuclear_site(self):
         """Test DELETE operation on nuclear sites API"""
 
-        NuclearSite.objects.create(**self.site_data)
-        response = self.client.delete("/api/nuclear-sites/1/")
+        nuclear_site = NuclearSite.objects.create(**self.site_data)
+        response = self.client.delete(reverse("detail-nuclear-site", kwargs={"pk": nuclear_site.pk}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(NuclearSite.objects.count(), 0)
 
@@ -134,6 +97,6 @@ class NuclearSiteAPITestCase(TestCase):
         """Test GET operation for all nuclear sites API elements"""
 
         NuclearSite.objects.create(**self.site_data)
-        response = self.client.get("/api/nuclear-sites/")
+        response = self.client.get(reverse("list-nuclear-sites"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
