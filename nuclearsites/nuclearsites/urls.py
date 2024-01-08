@@ -33,5 +33,5 @@ from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/", include("nucleargisapp.urls")),
+    path("nuclear-sites-api/", include("nucleargisapp.urls")),
 ]

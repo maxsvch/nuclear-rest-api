@@ -18,7 +18,7 @@ from django.urls import path
 from .views import NuclearSiteCreateView, NuclearSiteDetailView, NuclearSiteListView
 
 urlpatterns = [
-    path("nuclear-sites/", NuclearSiteListView.as_view(), name="list-nuclear-sites"),
-    path("nuclear-sites/add/", NuclearSiteCreateView.as_view(), name="add-nuclear-site"),
-    path("nuclear-sites/<int:pk>/", NuclearSiteDetailView.as_view(), name="detail-nuclear-site"),
+    path("", NuclearSiteListView.as_view(), name="list-nuclear-sites"),
+    path("add/", NuclearSiteCreateView.as_view(), name="add-nuclear-site"),
+    path("<int:pk>/", NuclearSiteDetailView.as_view(), name="detail-nuclear-site"),
 ]

@@ -117,7 +117,7 @@ Run the development server:
 python manage.py runserver
 ```
 
-Your project should now be running at http://localhost:8000/. You can access the admin interface at http://localhost:8000/admin/.
+Your project should now be running at http://localhost:8000/nuclear-sites-api. You can access the admin interface at http://localhost:8000/admin/.
 
 ## Usage
 
@@ -128,11 +128,11 @@ This section is in development
 
 ## API Endpoints
 
-* `/api/nuclear-sites/`:
+* `/nuclear-sites-api/`:
     * GET: Retrieve a list of all nuclear sites stored in the database.
-* `/apinuclear-sites/add/`:
+* `/nuclear-sites-api/add/`:
     * POST : Create a new nuclear site element.
-* `/api/nuclear-sites/{id}/`:
+* `/nuclear-sites-api/{id}/`:
     * GET: Retrieve details of a specific nuclear site.
     * PUT: Update details of a specific nuclear site.
     * DELETE: Delete a specific nuclear site.
